@@ -5,8 +5,23 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
-		body { margin: 0; }
-		canvas { width: 100%; height: 100% }
+		body { margin: 0; 
+			background-image: url('img/bg.jfif');
+		}
+		canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			display: block;
+			width: 100%;
+			height: 100vh;
+		}
+		.logo {
+			width: 200px;
+			height: 200px;
+			position: absolute;
+			top: -60px;
+		}
 	  </style>
 	      <script src="js/three.min.js"></script>
 		  <script src="js/OrbitControls.js"></script>
@@ -17,6 +32,8 @@
 		  </script>  
   </head>
     <body>
+		<img src="img/logo.png" alt="N/A" class="logo">
+			
 	<script>		
 	
  	// 3D ცენის ჩატვირთვა
@@ -26,8 +43,8 @@
 	var innerw,height;
 	var stars=[];
 	var guic, controlConfig= {
-	freezState: false,
-	revolveSpeed: 1
+	გაყინვა: false,
+	ბრუნვის_სისწრაფე: 1
 	};
 
 
@@ -75,8 +92,8 @@
 
 
 	// რენდერერის ჩატვირთვა
-	var renderer = new THREE.WebGLRenderer({antialias: true});
-	renderer.setClearColor( 0x000000 );
+	renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setClearColor(0xffffff, 0);
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	innerw=window.innerWidth;
@@ -84,9 +101,9 @@
 	document.body.appendChild(renderer.domElement);
 
  	// ორბიტის კონტროლერის ჩატვირთვა
-	var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
-	controls.minDistance=10;
-	controls.maxDistance=500;
+	var მართვა = new THREE.OrbitControls( camera, renderer.domElement ); 
+	მართვა.minDistance=10;
+	მართვა.maxDistance=500;
  	// სინათლის ჩატვირთვა
 	var ambientLight = new THREE.AmbientLight( 0xffffff );
 	scene.add( ambientLight );
@@ -282,11 +299,11 @@
 
 
 	// Controls - კონტროლები
-	var controlGUI = guic.addFolder( "Controls" );
+	var controlGUI = guic.addFolder( "მართვა" );
 
-	controlGUI.add( controlConfig, 'freezState' )
+	controlGUI.add( controlConfig, 'გაყინვა' )
 	
-	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() 
+	controlGUI.add( controlConfig, 'ბრუნვის_სისწრაფე', 1, 24 ).onChange( function() 
 	{
 
 	});
@@ -333,9 +350,9 @@ function onDocumentMouseDown( event ) {
 	renderer.render( scene, camera );
 	animateStars();
 
-	if(!controlConfig.freezState)
+	if(!controlConfig.გაყინვა)
 		revolvePlanet();
-	console.log(controlConfig.revolveSpeed);
+	console.log(controlConfig.ბრუნვის_სისწრაფე);
 	}
 
 
@@ -347,7 +364,7 @@ function onDocumentMouseDown( event ) {
 			mercury.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			mt = (mt >= 1) ? 0 : mt += (0.005/controlConfig.revolveSpeed);
+			mt = (mt >= 1) ? 0 : mt += (0.005/controlConfig.ბრუნვის_სისწრაფე);
 		}
 		if (venus) 
 		{	
@@ -356,7 +373,7 @@ function onDocumentMouseDown( event ) {
 			venus.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			vet = (vet >= 1) ? 0 : vet += 0.001/controlConfig.revolveSpeed;
+			vet = (vet >= 1) ? 0 : vet += 0.001/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (earth)
 		{ 	earth.rotation.y+=0.02;
@@ -365,7 +382,7 @@ function onDocumentMouseDown( event ) {
 			earth.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );	
-			eat = (eat >= 1) ? 0 : eat += 0.0003/controlConfig.revolveSpeed;
+			eat = (eat >= 1) ? 0 : eat += 0.0003/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (mars) 
 		{	
@@ -374,7 +391,7 @@ function onDocumentMouseDown( event ) {
 			mars.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			mat = (mat >= 1) ? 0 : mat += 0.0001/controlConfig.revolveSpeed;
+			mat = (mat >= 1) ? 0 : mat += 0.0001/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (jupiter) 
 		{	jupiter.rotation.y+=0.004;
@@ -383,7 +400,7 @@ function onDocumentMouseDown( event ) {
 			jupiter.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			jupt = (jupt >= 1) ? 0 : jupt += 0.00006/controlConfig.revolveSpeed;
+			jupt = (jupt >= 1) ? 0 : jupt += 0.00006/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (saturn) 
 		{	saturn.rotation.y+=0.009;
@@ -392,7 +409,7 @@ function onDocumentMouseDown( event ) {
 			saturn.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			satt = (satt >= 1) ? 0 : satt += 0.00003/controlConfig.revolveSpeed;
+			satt = (satt >= 1) ? 0 : satt += 0.00003/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (uranus) 
 		{	uranus.rotation.y+=0.0004;
@@ -401,7 +418,7 @@ function onDocumentMouseDown( event ) {
 			uranus.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			urat = (urat >= 1) ? 0 : urat += 0.000009/controlConfig.revolveSpeed;
+			urat = (urat >= 1) ? 0 : urat += 0.000009/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		if (neptune) 
 		{	neptune.rotation.y+=0.0004;
@@ -410,7 +427,7 @@ function onDocumentMouseDown( event ) {
 			neptune.position.set(pt.x,pt.y,pt.z);
 			axis.crossVectors( up, tangent ).normalize();
 			var radians = Math.acos( up.dot( tangent ) );
-			nept = (nept >= 1) ? 0 : nept += 0.0000009/controlConfig.revolveSpeed;
+			nept = (nept >= 1) ? 0 : nept += 0.0000009/controlConfig.ბრუნვის_სისწრაფე;
 		}
 		
 

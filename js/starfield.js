@@ -40,6 +40,7 @@ Starfield.prototype.initialise = function(div) {
 	this.canvas.height = this.height;
 };
 
+
 Starfield.prototype.start = function() {
 
 	//	Create the stars.
